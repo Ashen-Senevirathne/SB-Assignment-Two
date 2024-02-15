@@ -5,7 +5,7 @@ import com.fidenz_assignment.service_provider_api.dto.request.ServiceCreateReque
 import com.fidenz_assignment.service_provider_api.dto.response.ServiceResponse;
 import com.fidenz_assignment.service_provider_api.service.ServiceService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,13 +17,9 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/service")
+@RequiredArgsConstructor
 public class ServiceController {
     private final ServiceService serviceService;
-
-    @Autowired
-    public ServiceController(ServiceService serviceService) {
-        this.serviceService = serviceService;
-    }
 
     @PostMapping("/create")
     public ResponseEntity<ServiceResponse> createService(@RequestBody @Valid ServiceCreateRequest serviceCreateRequest) {

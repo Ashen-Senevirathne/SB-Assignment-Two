@@ -6,29 +6,17 @@ import com.fidenz_assignment.service_provider_api.enums.UserRole;
 import com.fidenz_assignment.service_provider_api.mapper.ClientMapper;
 import com.fidenz_assignment.service_provider_api.model.User;
 import com.fidenz_assignment.service_provider_api.repository.ClientRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ClientService {
 
     private final UserService userService;
     private final ProfileService profileService;
     private final ClientRepository clientRepository;
-    private ClientMapper clientMapper;
-
-    @Autowired
-    public ClientService(
-            UserService userService,
-            ProfileService profileService,
-            ClientRepository clientRepository,
-            ClientMapper clientMapper
-    ) {
-        this.userService = userService;
-        this.profileService = profileService;
-        this.clientRepository = clientRepository;
-        this.clientMapper = clientMapper;
-    }
+    private final ClientMapper clientMapper;
 
     public ActionResultResponse createClient(ClientCreateRequest clientCreateRequest) {
 

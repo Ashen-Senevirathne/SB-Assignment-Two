@@ -7,10 +7,15 @@ import com.fidenz_assignment.service_provider_api.mapper.UserMapper;
 import com.fidenz_assignment.service_provider_api.model.User;
 import com.fidenz_assignment.service_provider_api.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
 
@@ -20,11 +25,15 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return userRepository.findByEmail(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
     public <T extends UserRequest> User createUser(T request, UserRole userRole) {
-        User user = userRepository.findByEmail(request.getEmail());
-        if (user == null) {
-            user = userRepository.save(userMapper.map(request, userRole));
-            return user;
+        Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
+        if (optionalUser.isEmpty()) {
+            return userRepository.save(userMapper.map(request, userRole));
         } else {
             throw new DefaultException(request.getEmail() + " already have an account");
         }

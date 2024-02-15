@@ -28,7 +28,7 @@ public class User implements UserDetails {
 
     private String password;
 
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     private UserRole userRole;
 
     @Override
@@ -39,6 +39,10 @@ public class User implements UserDetails {
     @Override
     public String getUsername() {
         return email;
+    }
+
+    public void setUsername(String username){
+        this.email = username;
     }
 
     @Override

@@ -8,23 +8,17 @@ import com.fidenz_assignment.service_provider_api.mapper.ServiceMapper;
 import com.fidenz_assignment.service_provider_api.model.Service;
 import com.fidenz_assignment.service_provider_api.repository.ServiceRepository;
 import com.fidenz_assignment.service_provider_api.repository.TrainerRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @org.springframework.stereotype.Service
+@RequiredArgsConstructor
 public class ServiceService {
     private final ServiceRepository serviceRepository;
     private final TrainerRepository trainerRepository;
     private final ServiceMapper serviceMapper;
-
-    @Autowired
-    public ServiceService(ServiceRepository serviceRepository, TrainerRepository trainerRepository, ServiceMapper serviceMapper) {
-        this.serviceRepository = serviceRepository;
-        this.trainerRepository = trainerRepository;
-        this.serviceMapper = serviceMapper;
-    }
 
     public ServiceResponse createService(ServiceCreateRequest serviceCreateRequest) {
         trainerRepository.findById(serviceCreateRequest.getTrainerId())

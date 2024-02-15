@@ -4,23 +4,17 @@ import com.fidenz_assignment.service_provider_api.dto.request.common.ProfileRequ
 import com.fidenz_assignment.service_provider_api.mapper.ProfileMapper;
 import com.fidenz_assignment.service_provider_api.model.Profile;
 import com.fidenz_assignment.service_provider_api.repository.ProfileRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class ProfileService {
 
     private final ProfileRepository profileRepository;
     private final ProfileMapper profileMapper;
 
-    @Autowired
-    ProfileService(ProfileRepository profileRepository, ProfileMapper profileMapper) {
-        this.profileRepository = profileRepository;
-        this.profileMapper = profileMapper;
-    }
-
     public <T extends ProfileRequest> Profile  createProfile(T request, Long userId) {
-        Profile profile = profileRepository.save(profileMapper.map(request, userId));
-        return profile;
+        return profileRepository.save(profileMapper.map(request, userId));
     }
 }
